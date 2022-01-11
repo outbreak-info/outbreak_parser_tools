@@ -2,7 +2,6 @@ import os
 import json
 
 HOME_DIR = '/opt/home/outbreak'
-HOME_DIR = '/Users/julia/code'
 ANNOTATION_PATHS = {
     'topics_file':      os.path.join(HOME_DIR, 'topic_classifier',          'results', 'topicCats.json'),
     'altmetrics_file':  os.path.join(HOME_DIR, 'covid_altmetrics',          'results', 'altmetric_annotations.json'),
@@ -40,7 +39,7 @@ class Correction(Annotation):
             else:
                 # document does not yet have a correction
                 document['correction'] = correction
-                print(f'{document["_id"]} correction {document["correction"]}')
+                #print(f'{document["_id"]} correction {document["correction"]}')
 
 class Topic(Annotation):
     def update(self, documents):
@@ -53,7 +52,7 @@ class Topic(Annotation):
 
             topicslist = topic[0]['topicCategory'].replace("'","").strip("[").strip("]").split(",")
             document['topicCategory'] = [x.strip(" ") for x in topicslist]
-            print(f"{document['_id']} topic {document['topicCategory']}")
+            #print(f"{document['_id']} topic {document['topicCategory']}")
 
 class Metric(Annotation):
     def update(self, documents):
@@ -73,7 +72,7 @@ class Metric(Annotation):
                     document['evaluations']=[eval_object,alt_metric['evaluations'][0]]
             else:
                 document['evaluations'] = alt_metric['evaluations']       
-                print(f'{document["_id"]} evaluation {document["evaluations"]}')
+                #print(f'{document["_id"]} evaluation {document["evaluations"]}')
                 
 class Addendum:
     def biorxiv_corrector(self):
