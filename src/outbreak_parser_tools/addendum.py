@@ -15,20 +15,17 @@ class Annotation:
         with open(source_file,'r') as infile:
             self.annotations = json.load(infile)
 
-    def relevant_annotations(self, documents):
-        d_ids = set([i['_id'] for i in documents])
-        return [i for i in self.annotations if i['_id'] in d_ids]
-
-    def get_annotation(self, document, annotations):
-        return [a for a in annotations if a['_id']==document['_id']]
+    def relevant_annotation_dict(self, documents):
+        doc_ids = set([i['_id'] for i in documents])
+        return {i['_id']: i for i in self.annotations if i['_id'] in doc_ids}
 
 class Correction(Annotation):
     ## preprint matcher correction
     def update(self, documents):
-        annotations = self.relevant_annotations(documents)
+        annotations = self.relevant_annotation_dict(documents)
 
         for document in documents:
-            correction = self.get_annotation(document, annotations)
+            correction = annotations.get(document['_id'])
             if not correction:
                 continue
 
@@ -43,10 +40,10 @@ class Correction(Annotation):
 
 class Topic(Annotation):
     def update(self, documents):
-        annotations = self.relevant_annotations(documents)
+        annotations = self.relevant_annotation_dict(documents)
 
         for document in documents:
-            topic = self.get_annotation(document, annotations)
+            topic = annotations.get(document['_id'])
             if not topic:
                 continue
 
@@ -59,6 +56,7 @@ class Metric(Annotation):
         annotations = self.relevant_annotations(documents)
 
         for document in documents:
+            alt_info = annotations.get(document['_id'])
             alt_info = self.get_annotation(document, annotations)
             if not alt_info:
                 continue
