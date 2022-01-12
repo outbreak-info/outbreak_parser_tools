@@ -53,7 +53,7 @@ class Topic(Annotation):
 
 class Metric(Annotation):
     def update(self, documents):
-        annotations = self.relevant_annotations(documents)
+        annotations = self.relevant_annotation_dict(documents)
 
         for document in documents:
             alt_metric = annotations.get(document['_id'])
