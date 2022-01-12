@@ -75,11 +75,11 @@ class Metric(Annotation):
                 #print(f'{document["_id"]} evaluation {document["evaluations"]}')
                 
 class Addendum:
-    def biorxiv_corrector(self):
+    def biorxiv_corrector():
         return Correction(ANNOTATION_PATHS['preprint_updates'])
 
-    def topic_adder(self):
+    def topic_adder():
         return Topic(ANNOTATION_PATHS['topics_file'])
 
-    def altmetric_adder(self):
+    def altmetric_adder():
         return Metric(ANNOTATION_PATHS['altmetrics_file'])
