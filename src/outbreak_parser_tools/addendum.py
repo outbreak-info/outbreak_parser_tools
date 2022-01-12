@@ -32,10 +32,10 @@ class Correction(Annotation):
             if document.get('correction'):
                 # not sure this branch is used at all
                 if isinstance(document['correction'], list):
-                    document['correction'].append(correction['correction'][0])
+                    document['correction'].append(correction)
             else:
                 # document does not yet have a correction
-                document['correction'] = correction
+                document['correction'] = [correction]
                 #print(f'{document["_id"]} correction {document["correction"]}')
 
 class Topic(Annotation):
@@ -47,7 +47,7 @@ class Topic(Annotation):
             if not topic:
                 continue
 
-            topicslist = topic[0]['topicCategory'].replace("'","").strip("[").strip("]").split(",")
+            topicslist = topic['topicCategory'].replace("'","").strip("[").strip("]").split(",")
             document['topicCategory'] = [x.strip(" ") for x in topicslist]
             #print(f"{document['_id']} topic {document['topicCategory']}")
 
@@ -56,11 +56,9 @@ class Metric(Annotation):
         annotations = self.relevant_annotations(documents)
 
         for document in documents:
-            alt_info = annotations.get(document['_id'])
-            alt_info = self.get_annotation(document, annotations)
-            if not alt_info:
+            alt_metric = annotations.get(document['_id'])
+            if not alt_metric:
                 continue
-            alt_metric = alt_info[0]
 
             if document.get('evaluations'):
                 try:
