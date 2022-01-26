@@ -59,13 +59,14 @@ class Metric(Annotation):
             alt_metric = annotations.get(document['_id'])
             if not alt_metric:
                 continue
-
+"""
             if document.get('evaluations'):
                 try:
                     document['evaluations'].append(alt_metric['evaluations'][0])
                 except:
                     eval_object = document['evaluations']
                     document['evaluations']=[eval_object,alt_metric['evaluations'][0]]
+"""                    
             else:
                 document['evaluations'] = alt_metric['evaluations']       
                 #print(f'{document["_id"]} evaluation {document["evaluations"]}')
