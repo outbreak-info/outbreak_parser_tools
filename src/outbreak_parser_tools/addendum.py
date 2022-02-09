@@ -1,7 +1,9 @@
 import os
 import json
+import logging
 
 HOME_DIR = '/opt/home/outbreak'
+
 ANNOTATION_PATHS = {
     'topics_file':      os.path.join(HOME_DIR, 'topic_classifier',          'results', 'topicCats.json'),
     'altmetrics_file':  os.path.join(HOME_DIR, 'covid_altmetrics',          'results', 'altmetric_annotations.json'),
@@ -12,20 +14,22 @@ ANNOTATION_PATHS = {
 
 class Annotation:
     def __init__(self, source_file):
+        logging.warning(f'adding {self.__class__}')
         with open(source_file,'r') as infile:
             self.annotations = json.load(infile)
 
     def relevant_annotation_dict(self, documents):
         doc_ids = set([i['_id'] for i in documents])
+        logging.warning(f'{len(doc_ids)} relevant ids')
         return {i['_id']: i for i in self.annotations if i['_id'] in doc_ids}
 
 class Correction(Annotation):
-    ## preprint matcher correction
     def update(self, documents):
         annotations = self.relevant_annotation_dict(documents)
 
         for document in documents:
             correction = annotations.get(document['_id'])
+            correction = correction.get('correction')
             if not correction:
                 continue
 
