@@ -29,8 +29,9 @@ class Correction(Annotation):
 
         for document in documents:
             correction = annotations.get(document['_id'])
-            correction = correction.get('correction')
-            if not correction:
+            if correction and correction.get('correction')
+                correction = correction.get('correction')
+            else:
                 continue
 
             if document.get('correction'):
