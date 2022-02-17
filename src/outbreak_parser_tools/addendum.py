@@ -29,7 +29,7 @@ class Correction(Annotation):
 
         for document in documents:
             correction = annotations.get(document['_id'])
-            if correction and correction.get('correction')
+            if correction and correction.get('correction'):
                 correction = correction.get('correction')
             else:
                 continue
@@ -40,7 +40,7 @@ class Correction(Annotation):
                     document['correction'].append(correction)
             else:
                 # document does not yet have a correction
-                document['correction'] = [correction]
+                document['correction'] = correction
                 #print(f'{document["_id"]} correction {document["correction"]}')
 
 class Topic(Annotation):
